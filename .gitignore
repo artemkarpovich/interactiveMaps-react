@@ -1,0 +1,12 @@
+#ide
+*.iml
+.idea/
+
+# compiled output
+dist/bundle.js
+
+# dependencies
+/node_modules
+
+# Mac OS X
+.DS_Store
