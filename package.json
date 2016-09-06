@@ -1,0 +1,19 @@
+{
+  "name": "interactive-maps-react",
+  "version": "1.0.0",
+  "description": "\"# interactiveMaps-react\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artemkarpovich/interactiveMaps-react.git"
+  },
+  "author": "artemkarpovich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artemkarpovich/interactiveMaps-react/issues"
+  },
+  "homepage": "https://github.com/artemkarpovich/interactiveMaps-react#readme"
+}
