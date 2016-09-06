@@ -4,7 +4,8 @@
   "description": "\"# interactiveMaps-react\"",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --progress"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/artemkarpovich/interactiveMaps-react/issues"
   },
-  "homepage": "https://github.com/artemkarpovich/interactiveMaps-react#readme"
+  "homepage": "https://github.com/artemkarpovich/interactiveMaps-react#readme",
+  "devDependencies": {
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.1"
+  }
 }
