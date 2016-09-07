@@ -6,7 +6,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconButton from 'material-ui/IconButton';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getLocationCategories } from '../actions/index';
+import { getLocationCategories, getLocationsByCategory } from '../actions/index';
 
 class App extends Component {
   constructor(props) {
@@ -16,22 +16,24 @@ class App extends Component {
       categoryName: 'Выберите категорию',
     };
 
-    this.changeCategoryName = this.changeCategoryName.bind(this);
+    this.getCategoryName = this.getCategoryName.bind(this);
   }
 
   componentDidMount() {
     this.props.actions.getLocationCategories();
   }
 
-  changeCategoryName(categoryName) {
+  getCategoryName(categoryName) {
+    this.props.actions.getLocationsByCategory(categoryName);
+
     this.setState({
       categoryName,
     });
   }
 
   render() {
-    const { locationCategories } = this.props;
-
+    const { locationCategories, locations } = this.props;
+    console.log(locations, 'locations');
     return (
       <div>
         <AppBar
@@ -50,7 +52,7 @@ class App extends Component {
                     <MenuItem
                       primaryText={category.name}
                       key={category.id}
-                      onClick={() => this.changeCategoryName(category.name)}
+                      onClick={() => this.getCategoryName(category.name)}
                     />
                   ) :
                   null
@@ -69,8 +71,10 @@ class App extends Component {
 const propTypes = {
   children: PropTypes.object,
   locationCategories: PropTypes.array,
+  locations: PropTypes.array,
   actions: PropTypes.shape({
     getLocationCategories: PropTypes.func,
+    getLocationsByCategory: PropTypes.func,
   }),
 };
 
@@ -79,6 +83,7 @@ App.propTypes = propTypes;
 function mapStateToProps(state) {
   return {
     locationCategories: state.locationCategories.categories,
+    locations: state.locations.items,
   };
 }
 
@@ -86,6 +91,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       getLocationCategories,
+      getLocationsByCategory,
     }, dispatch),
   };
 }
