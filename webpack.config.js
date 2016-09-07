@@ -1,8 +1,9 @@
 var webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   devtool: 'eval-source-map',
-  entry:  __dirname + "/src/index.js",
+  entry:  __dirname + "/src/index.jsx",
   output: {
     path: __dirname + "/dist",
     filename: "bundle.js"
@@ -13,6 +14,15 @@ module.exports = {
   },
 
   module: {
+    preLoaders: [
+      {
+        test:/\.jsx?$/,
+        loaders: ['eslint'],
+        include: [
+        path.resolve(__dirname, './src'),
+        ],
+      }
+    ],
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.scss$/, loader: 'style-loader!css-loader!autoprefixer-loader!sass-loader' },
