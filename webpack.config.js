@@ -25,7 +25,7 @@ module.exports = {
     ],
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
-      { test: /\.scss$/, loader: 'style-loader!css-loader!autoprefixer-loader!sass-loader' },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.(woff2?|svg|jpe?g|png|gif|ico)$/, loader: 'url?limit=1000000' },
     ]
   },

@@ -10,7 +10,7 @@ import api from './middlewares/api';
 import routes from './routes';
 import reducers from './reducers';
 
-import './styles/main.scss';
+import './styles/main.css';
 import { muiTheme } from './styles';
 
 injectTapEventPlugin();

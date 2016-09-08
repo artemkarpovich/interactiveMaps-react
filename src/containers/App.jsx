@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import IconButton from 'material-ui/IconButton';
 import AppBar from 'material-ui/AppBar';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconButton from 'material-ui/IconButton';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import MoreVertIcon from '../../node_modules/material-ui/svg-icons/navigation/more-vert';
+import Map from './Map';
 import { getLocationCategories, getLocationsByCategory } from '../actions/index';
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      categoryName: 'Выберите категорию',
+      categoryName: 'Выберите категорию в меню',
     };
 
     this.getCategoryName = this.getCategoryName.bind(this);
@@ -33,7 +34,7 @@ class App extends Component {
 
   render() {
     const { locationCategories, locations } = this.props;
-    console.log(locations, 'locations');
+
     return (
       <div>
         <AppBar
@@ -62,7 +63,7 @@ class App extends Component {
         >
           {this.state.categoryName}
         </AppBar>
-        { this.props.children }
+        <Map locations={locations} />
       </div>
     );
   }
