@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Map, Popup, Marker, TileLayer } from 'react-leaflet';
+import { Map, Popup, Marker, TileLayer, CircleMarker } from 'react-leaflet';
 import 'leaflet-routing-machine';
 import Routing from './Routing';
 import '../../node_modules/leaflet/dist/leaflet.css';
@@ -41,6 +41,11 @@ class MapLeafLet extends Component {
                 </span>
               </Popup>
             </Marker> : null
+        }
+        {
+          typeof (userPosition) === 'object' ?
+            <CircleMarker center={[userPosition.latitude, userPosition.longitude]} radius={25} />
+            : null
         }
         {
           locations.length > 0 ?

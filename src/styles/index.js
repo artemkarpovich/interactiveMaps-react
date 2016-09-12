@@ -10,3 +10,13 @@ export const muiTheme = getMuiTheme({
     backgroundColor: 'rgba(0, 0, 0, 0)',
   },
 });
+
+export const iMap = {
+  appBar: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'white',
+    fontSize: '20px',
+  },
+};

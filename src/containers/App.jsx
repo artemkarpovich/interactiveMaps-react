@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from '../../node_modules/material-ui/svg-icons/navigation/more-vert';
 import Map from './../components/Map';
 import { getLocationCategories, getLocationsByCategory } from '../actions/index';
+import { iMap } from '../styles';
 
 class App extends Component {
   constructor(props) {
@@ -69,6 +70,7 @@ class App extends Component {
               }
             </IconMenu>
           }
+          style={iMap.appBar}
         >
           {this.state.categoryName}
         </AppBar>
