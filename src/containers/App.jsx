@@ -6,7 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from '../../node_modules/material-ui/svg-icons/navigation/more-vert';
-import Map from './Map';
+import Map from './../components/Map';
 import { getLocationCategories, getLocationsByCategory } from '../actions/index';
 
 class App extends Component {
@@ -15,6 +15,7 @@ class App extends Component {
 
     this.state = {
       categoryName: 'Выберите категорию в меню',
+      userPosition: 'unknown',
     };
 
     this.getCategoryName = this.getCategoryName.bind(this);
@@ -22,6 +23,15 @@ class App extends Component {
 
   componentDidMount() {
     this.props.actions.getLocationCategories();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          userPosition: position.coords,
+        });
+      },
+      (error) => alert(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
   }
 
   getCategoryName(categoryName) {
@@ -34,7 +44,6 @@ class App extends Component {
 
   render() {
     const { locationCategories, locations } = this.props;
-
     return (
       <div>
         <AppBar
@@ -63,7 +72,11 @@ class App extends Component {
         >
           {this.state.categoryName}
         </AppBar>
-        <Map locations={locations} />
+        <Map
+          locations={locations}
+          userPosition={this.state.userPosition}
+          getDirection={this.getDirection}
+        />
       </div>
     );
   }
