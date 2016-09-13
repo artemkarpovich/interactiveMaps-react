@@ -79,6 +79,7 @@ class MapLeafLet extends Component {
             /> :
             null
         }
+
       </Map>
     );
   }

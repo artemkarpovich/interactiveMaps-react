@@ -19,4 +19,7 @@ export const iMap = {
     color: 'white',
     fontSize: '20px',
   },
+  selectBoxWithSearch: {
+    width: '256px',
+  },
 };

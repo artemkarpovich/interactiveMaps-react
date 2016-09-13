@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Map from './../components/Map';
+import SelectBoxWithSearch from '../components/SelectBoxWithSearch';
 import IconButton from 'material-ui/IconButton';
 import AppBar from 'material-ui/AppBar';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import MoreVertIcon from '../../node_modules/material-ui/svg-icons/navigation/more-vert';
-import Map from './../components/Map';
+import KeyboardArrowDown from '../../node_modules/material-ui/svg-icons/hardware/keyboard-arrow-down';
 import { getLocationCategories, getLocationsByCategory } from '../actions/index';
 import { iMap } from '../styles';
 
@@ -17,9 +16,11 @@ class App extends Component {
     this.state = {
       categoryName: 'Выберите категорию в меню',
       userPosition: 'unknown',
+      categories: false,
     };
 
-    this.getCategoryName = this.getCategoryName.bind(this);
+    this.getItemsCategory = this.getItemsCategory.bind(this);
+    this.handleShowCategory = this.handleShowCategory.bind(this);
   }
 
   componentDidMount() {
@@ -35,11 +36,18 @@ class App extends Component {
     );
   }
 
-  getCategoryName(categoryName) {
+  getItemsCategory(categoryName) {
     this.props.actions.getLocationsByCategory(categoryName);
 
     this.setState({
       categoryName,
+      categories: !this.state.categories,
+    });
+  }
+
+  handleShowCategory() {
+    this.setState({
+      categories: !this.state.categories,
     });
   }
 
@@ -50,30 +58,20 @@ class App extends Component {
         <AppBar
           title="IMaps"
           iconElementLeft={
-            <IconMenu
-              iconButtonElement={
-                <IconButton><MoreVertIcon /></IconButton>
-              }
-              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            >
-              {
-                locationCategories ?
-                  locationCategories.map(category =>
-                    <MenuItem
-                      primaryText={category.name}
-                      key={category.id}
-                      onClick={() => this.getCategoryName(category.name)}
-                    />
-                  ) :
-                  null
-              }
-            </IconMenu>
+            <IconButton onClick={() => this.handleShowCategory()}><KeyboardArrowDown /></IconButton>
           }
           style={iMap.appBar}
         >
           {this.state.categoryName}
         </AppBar>
+        {
+          this.state.categories === true ?
+            <SelectBoxWithSearch
+              items={locationCategories}
+              getItemsCategory={this.getItemsCategory}
+            /> :
+            null
+        }
         <Map
           locations={locations}
           userPosition={this.state.userPosition}
