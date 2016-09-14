@@ -58,7 +58,12 @@ class App extends Component {
         <AppBar
           title="IMaps"
           iconElementLeft={
-            <IconButton onClick={() => this.handleShowCategory()}><KeyboardArrowDown /></IconButton>
+            <IconButton
+              onClick={() => this.handleShowCategory()}
+              style={iMap.appBarIconButton}
+            >
+              <KeyboardArrowDown />
+            </IconButton>
           }
           style={iMap.appBar}
         >
@@ -69,6 +74,7 @@ class App extends Component {
             <SelectBoxWithSearch
               items={locationCategories}
               getItemsCategory={this.getItemsCategory}
+              style={iMap.selectBoxWithSearch}
             /> :
             null
         }

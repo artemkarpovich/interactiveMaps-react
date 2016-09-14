@@ -19,7 +19,13 @@ export const iMap = {
     color: 'white',
     fontSize: '20px',
   },
+  appBarIconButton: {
+    position: 'relative',
+  },
   selectBoxWithSearch: {
     width: '256px',
+    position: 'absolute',
+    zIndex: '1',
+    background: 'white',
   },
 };

@@ -35,7 +35,12 @@ class MapLeafLet extends Component {
     }
 
     return (
-      <Map center={[53.674237, 23.825132]} zoom={13} ref={(c) => { this.mapLeaflet = c; }} >
+      <Map
+        center={[53.674237, 23.825132]}
+        zoom={13}
+        ref={(c) => { this.mapLeaflet = c; }}
+        zoomControl={false}
+      >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
