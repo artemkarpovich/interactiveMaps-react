@@ -43,6 +43,8 @@ class App extends Component {
       categoryName,
       categories: !this.state.categories,
     });
+
+    this.refs.map.mapLeaflet.leafletElement.setZoom(12);
   }
 
   handleShowCategory() {
@@ -82,6 +84,7 @@ class App extends Component {
           locations={locations}
           userPosition={this.state.userPosition}
           getDirection={this.getDirection}
+          ref="map"
         />
       </div>
     );

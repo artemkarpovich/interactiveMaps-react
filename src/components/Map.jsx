@@ -36,7 +36,11 @@ class MapLeafLet extends Component {
 
     return (
       <Map
-        center={[53.674237, 23.825132]}
+        center={
+          countKeyInUserPosition > 0 ?
+            [userPosition.latitude, userPosition.longitude] :
+            [53.674237, 23.825132]
+          }
         zoom={13}
         ref={(c) => { this.mapLeaflet = c; }}
         zoomControl={false}

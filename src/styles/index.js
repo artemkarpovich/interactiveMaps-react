@@ -25,7 +25,9 @@ export const iMap = {
   selectBoxWithSearch: {
     width: '256px',
     position: 'absolute',
-    zIndex: '1',
+    zIndex: '1200',
+    top: '50px',
+    left: '5px',
     background: 'white',
   },
 };
