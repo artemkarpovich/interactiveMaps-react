@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Map, Popup, Marker, TileLayer, CircleMarker } from 'react-leaflet';
+import { Map, Popup, Marker, TileLayer, CircleMarker, ZoomControl } from 'react-leaflet';
 import 'leaflet-routing-machine';
 import Routing from './Routing';
 import '../../node_modules/leaflet/dist/leaflet.css';
@@ -45,6 +45,7 @@ class MapLeafLet extends Component {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
+        <ZoomControl position="bottomleft" />
         {
           countKeyInUserPosition > 0 ?
             <Marker position={[userPosition.latitude, userPosition.longitude]}>
