@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Map from './../components/Map';
-import SelectBoxWithSearch from '../components/SelectBoxWithSearch';
 import IconButton from 'material-ui/IconButton';
 import AppBar from 'material-ui/AppBar';
-import KeyboardArrowDown from '../../node_modules/material-ui/svg-icons/hardware/keyboard-arrow-down';
+import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import Map from './../components/Map';
+import SelectBoxWithSearch from '../components/SelectBoxWithSearch';
 import { getLocationCategories, getLocationsByCategory } from '../actions/index';
 import { iMap } from '../styles';
 
@@ -15,7 +15,7 @@ class App extends Component {
 
     this.state = {
       categoryName: 'Выберите категорию в меню',
-      userPosition: 'unknown',
+      userPosition: {},
       categories: false,
     };
 

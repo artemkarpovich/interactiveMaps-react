@@ -15,23 +15,33 @@ class MapLeafLet extends Component {
   }
 
   getDirection(to) {
+    const mapLeaflet = this.mapLeaflet;
+
     this.setState({
       toLat: to[0],
       toLon: to[1],
     });
+
+    mapLeaflet.leafletElement.closePopup();
   }
 
   render() {
     const { userPosition, locations } = this.props;
 
+    let countKeyInUserPosition = 0;
+
+    for (const key in userPosition) {
+      countKeyInUserPosition++;
+    }
+
     return (
-      <Map center={[53.674237, 23.825132]} zoom={13}>
+      <Map center={[53.674237, 23.825132]} zoom={13} ref={(c) => { this.mapLeaflet = c; }} >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
         {
-          typeof (userPosition) === 'object' ?
+          countKeyInUserPosition > 0 ?
             <Marker position={[userPosition.latitude, userPosition.longitude]}>
               <Popup>
                 <span>
@@ -43,7 +53,7 @@ class MapLeafLet extends Component {
             </Marker> : null
         }
         {
-          typeof (userPosition) === 'object' ?
+          countKeyInUserPosition > 0 ?
             <CircleMarker center={[userPosition.latitude, userPosition.longitude]} radius={25} />
             : null
         }
@@ -72,14 +82,13 @@ class MapLeafLet extends Component {
             ) : null
         }
         {
-          this.state.toLat !== null ?
+          (this.state.toLat !== null && this.state.toLat !== null) ?
             <Routing
               from={[userPosition.latitude, userPosition.longitude]}
               to={[this.state.toLat, this.state.toLon]}
             /> :
             null
         }
-
       </Map>
     );
   }
@@ -88,7 +97,6 @@ class MapLeafLet extends Component {
 const propTypes = {
   locations: PropTypes.array,
   userPosition: PropTypes.object,
-  getDirection: PropTypes.func,
 };
 
 MapLeafLet.propTypes = propTypes;
