@@ -79,13 +79,16 @@ class MapLeafLet extends Component {
                     {location.name}<br />
                     {location.description}<br />
                     {location.address}<br />
-                    <button
-                      onClick={() => this.getDirection(
+                    {
+                      countKeyInUserPosition > 0 ?
+                        <button
+                          onClick={() => this.getDirection(
                         [location.coordinates.lat, location.coordinates.lon]
                       )}
-                    >
-                      Get direction
-                    </button>
+                        >
+                          Get direction
+                        </button> : null
+                    }
                   </span>
                 </Popup>
               </Marker>

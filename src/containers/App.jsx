@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import AppBar from 'material-ui/AppBar';
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import Map from './../components/Map';
 import SelectBoxWithSearch from '../components/SelectBoxWithSearch';
 import { getLocationCategories, getLocationsByCategory } from '../actions/index';
@@ -17,6 +19,8 @@ class App extends Component {
       categoryName: 'Выберите категорию в меню',
       userPosition: {},
       categories: false,
+      open: false,
+      errorMessage: '',
     };
 
     this.getItemsCategory = this.getItemsCategory.bind(this);
@@ -31,12 +35,19 @@ class App extends Component {
           userPosition: position.coords,
         });
       },
-      (error) => alert(error.message),
+      (error) => {
+        this.setState({
+          open: true,
+          errorMessage: error.message,
+        });
+      },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   }
 
   getItemsCategory(categoryName) {
+    const map = this.map;
+
     this.props.actions.getLocationsByCategory(categoryName);
 
     this.setState({
@@ -44,7 +55,7 @@ class App extends Component {
       categories: !this.state.categories,
     });
 
-    this.refs.map.mapLeaflet.leafletElement.setZoom(12);
+    map.mapLeaflet.leafletElement.setZoom(12);
   }
 
   handleShowCategory() {
@@ -53,8 +64,21 @@ class App extends Component {
     });
   }
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { locationCategories, locations } = this.props;
+
+    const actions = [
+      <FlatButton
+        label="Ok"
+        primary
+        onTouchTap={this.handleClose}
+      />,
+    ];
+
     return (
       <div>
         <AppBar
@@ -84,8 +108,18 @@ class App extends Component {
           locations={locations}
           userPosition={this.state.userPosition}
           getDirection={this.getDirection}
-          ref="map"
+          ref={(c) => { this.map = c; }}
         />
+
+        <Dialog
+          title="ERROR"
+          actions={actions}
+          modal
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          {this.state.errorMessage}
+        </Dialog>
       </div>
     );
   }

@@ -22,7 +22,7 @@ class SelectBoxWithSearch extends Component {
     const { getItemsCategory } = this.props;
     const searchString = this.state.searchString.trim().toLocaleLowerCase();
     let items = this.props.items;
-    
+
     if (searchString.length > 0) {
       items = items.filter(item => item.name.toLowerCase().match(searchString));
     }
