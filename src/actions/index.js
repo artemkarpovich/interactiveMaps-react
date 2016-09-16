@@ -1,6 +1,8 @@
 export const GET_LOCATION_CATEGORIES = 'GET_LOCATION_CATEGORIES';
 export const GET_LOCATIONS_BY_CATEGORY = 'GET_LOCATIONS_BY_CATEGORY';
-export const ADD_COORDINATES_CATEGORY_ITEM = 'ADD_COORDINATES_CATEGORY_ITEM';
+export const ADD_USER_POSITION = 'ADD_USER_POSITION';
+export const RECORD_ERROR = 'RECORD_ERROR';
+export const CLOSE_MODAL_WINDOW = 'CLOSE_MODAL_WINDOW';
 
 export function getLocationCategories() {
   return {
@@ -22,11 +24,27 @@ export function getLocationsByCategory(categoryName) {
   };
 }
 
-export function addCoordinatesCategoryItem(coordinates) {
+export function addUserPosition(coordinates) {
   return {
-    type: ADD_COORDINATES_CATEGORY_ITEM,
+    type: ADD_USER_POSITION,
     payload: {
       coordinates,
     },
+  };
+}
+
+export function recordError(error) {
+  return {
+    type: RECORD_ERROR,
+    payload: {
+      error,
+    },
+  };
+}
+
+export function closeModalWindow() {
+  return {
+    type: CLOSE_MODAL_WINDOW,
+    payload: {},
   };
 }

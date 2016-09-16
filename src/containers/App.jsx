@@ -2,7 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AppComponent from '../components/App';
-import { getLocationCategories, getLocationsByCategory } from '../actions/index';
+import {
+  getLocationCategories,
+  getLocationsByCategory,
+  addUserPosition,
+  recordError,
+  closeModalWindow,
+} from '../actions/index';
 
 class App extends Component {
   constructor(props) {
@@ -10,10 +16,7 @@ class App extends Component {
 
     this.state = {
       categoryName: 'Выберите категорию в меню',
-      userPosition: {},
       categories: false,
-      open: false,
-      errorMessage: '',
     };
 
     this.getItemsCategory = this.getItemsCategory.bind(this);
@@ -25,22 +28,17 @@ class App extends Component {
     this.props.actions.getLocationCategories();
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.setState({
-          userPosition: position.coords,
-        });
+        this.props.actions.addUserPosition(position.coords);
       },
       (error) => {
-        this.setState({
-          open: true,
-          errorMessage: error.message,
-        });
+        this.props.actions.recordError(error);
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   }
 
   getItemsCategory(categoryName) {
-    const map = this.refs.app.map;
+    const map = this.app.map;
 
     this.props.actions.getLocationsByCategory(categoryName);
 
@@ -58,26 +56,34 @@ class App extends Component {
     });
   }
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  handleClose() {
+    this.props.actions.closeModalWindow();
+  }
 
   render() {
-    const { locationCategories, locations } = this.props;
+    const {
+      locationCategories,
+      locations,
+      geolocation: {
+        userPosition,
+        errorMessage,
+        openModal,
+      },
+    } = this.props;
 
     return (
       <AppComponent
         locationCategories={locationCategories}
         locations={locations}
         categoryName={this.state.categoryName}
-        userPosition={this.state.userPosition}
+        userPosition={userPosition}
         categories={this.state.categories}
-        open={this.state.open}
-        errorMessage={this.state.errorMessage}
+        openModal={openModal}
+        errorMessage={errorMessage}
         getItemsCategory={this.getItemsCategory}
         showCategory={this.handleShowCategory}
         closeModal={this.handleClose}
-        ref="app"
+        ref={(app) => { this.app = app; }}
       />
     );
   }
@@ -86,9 +92,17 @@ class App extends Component {
 App.propTypes = {
   locationCategories: PropTypes.array,
   locations: PropTypes.array,
+  geolocation: PropTypes.shape({
+    userPosition: PropTypes.object,
+    errorMessage: PropTypes.string,
+    openModal: PropTypes.bool,
+  }),
   actions: PropTypes.shape({
     getLocationCategories: PropTypes.func,
     getLocationsByCategory: PropTypes.func,
+    addUserPosition: PropTypes.func,
+    recordError: PropTypes.func,
+    closeModalWindow: PropTypes.func,
   }),
 };
 
@@ -96,6 +110,7 @@ function mapStateToProps(state) {
   return {
     locationCategories: state.locationCategories.categories,
     locations: state.locations.items,
+    geolocation: state.geolocation,
   };
 }
 
@@ -104,6 +119,9 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       getLocationCategories,
       getLocationsByCategory,
+      addUserPosition,
+      recordError,
+      closeModalWindow,
     }, dispatch),
   };
 }

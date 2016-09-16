@@ -16,7 +16,7 @@ class App extends Component {
       categoryName,
       userPosition,
       categories,
-      open,
+      openModal,
       errorMessage,
       getItemsCategory,
       showCategory,
@@ -59,14 +59,14 @@ class App extends Component {
         <Map
           locations={locations}
           userPosition={userPosition}
-          ref={(c) => { this.map = c; }}
+          ref={(map) => { this.map = map; }}
         />
 
         <Dialog
           title="ERROR"
           actions={actions}
           modal
-          open={open}
+          open={openModal}
           onRequestClose={closeModal}
         >
           {errorMessage}
@@ -82,7 +82,7 @@ App.propTypes = {
   categoryName: PropTypes.string,
   userPosition: PropTypes.object,
   categories: PropTypes.bool,
-  open: PropTypes.bool,
+  openModal: PropTypes.bool,
   errorMessage: PropTypes.string,
   getItemsCategory: PropTypes.func,
   showCategory: PropTypes.func,
