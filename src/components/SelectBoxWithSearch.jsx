@@ -51,11 +51,9 @@ class SelectBoxWithSearch extends Component {
   }
 }
 
-const propTypes = {
+SelectBoxWithSearch.propTypes = {
   items: PropTypes.array,
   getItemsCategory: PropTypes.func,
 };
-
-SelectBoxWithSearch.propTypes = propTypes;
 
 export default SelectBoxWithSearch;

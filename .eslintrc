@@ -13,7 +13,8 @@
     "linebreak-style": 0,
     "jsx-boolean-value": 0,
     "guard-for-in": 0,
-    "no-restricted-syntax": 0
+    "no-restricted-syntax": 0,
+    "no-string-refs": 0
   },
   "env": {
      "browser": true,

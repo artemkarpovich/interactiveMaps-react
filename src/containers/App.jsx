@@ -1,15 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import IconButton from 'material-ui/IconButton';
-import AppBar from 'material-ui/AppBar';
-import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import Map from './../components/Map';
-import SelectBoxWithSearch from '../components/SelectBoxWithSearch';
+import AppComponent from '../components/App';
 import { getLocationCategories, getLocationsByCategory } from '../actions/index';
-import { iMap } from '../styles';
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +18,7 @@ class App extends Component {
 
     this.getItemsCategory = this.getItemsCategory.bind(this);
     this.handleShowCategory = this.handleShowCategory.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +40,7 @@ class App extends Component {
   }
 
   getItemsCategory(categoryName) {
-    const map = this.map;
+    const map = this.refs.app.map;
 
     this.props.actions.getLocationsByCategory(categoryName);
 
@@ -71,62 +65,25 @@ class App extends Component {
   render() {
     const { locationCategories, locations } = this.props;
 
-    const actions = [
-      <FlatButton
-        label="Ok"
-        primary
-        onTouchTap={this.handleClose}
-      />,
-    ];
-
     return (
-      <div>
-        <AppBar
-          title="IMaps"
-          iconElementLeft={
-            <IconButton
-              onClick={() => this.handleShowCategory()}
-              style={iMap.appBarIconButton}
-            >
-              <KeyboardArrowDown />
-            </IconButton>
-          }
-          style={iMap.appBar}
-        >
-          {this.state.categoryName}
-        </AppBar>
-        {
-          this.state.categories === true ?
-            <SelectBoxWithSearch
-              items={locationCategories}
-              getItemsCategory={this.getItemsCategory}
-              style={iMap.selectBoxWithSearch}
-            /> :
-            null
-        }
-        <Map
-          locations={locations}
-          userPosition={this.state.userPosition}
-          getDirection={this.getDirection}
-          ref={(c) => { this.map = c; }}
-        />
-
-        <Dialog
-          title="ERROR"
-          actions={actions}
-          modal
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
-          {this.state.errorMessage}
-        </Dialog>
-      </div>
+      <AppComponent
+        locationCategories={locationCategories}
+        locations={locations}
+        categoryName={this.state.categoryName}
+        userPosition={this.state.userPosition}
+        categories={this.state.categories}
+        open={this.state.open}
+        errorMessage={this.state.errorMessage}
+        getItemsCategory={this.getItemsCategory}
+        showCategory={this.handleShowCategory}
+        closeModal={this.handleClose}
+        ref="app"
+      />
     );
   }
 }
 
-const propTypes = {
-  children: PropTypes.object,
+App.propTypes = {
   locationCategories: PropTypes.array,
   locations: PropTypes.array,
   actions: PropTypes.shape({
@@ -134,8 +91,6 @@ const propTypes = {
     getLocationsByCategory: PropTypes.func,
   }),
 };
-
-App.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return {

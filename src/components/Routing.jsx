@@ -1,9 +1,10 @@
+import { PropTypes } from 'react';
 import { MapLayer } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import '../../node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
-export default class RoutingMachine extends MapLayer {
+class RoutingMachine extends MapLayer {
   componentWillMount() {
     super.componentWillMount();
     const { map, from, to } = this.props;
@@ -33,3 +34,11 @@ export default class RoutingMachine extends MapLayer {
     return null;
   }
 }
+
+RoutingMachine.propTypes = {
+  map: PropTypes.object,
+  from: PropTypes.array,
+  to: PropTypes.array,
+};
+
+export default RoutingMachine;

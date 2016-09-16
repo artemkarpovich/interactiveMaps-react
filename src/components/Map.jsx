@@ -30,7 +30,7 @@ class MapLeafLet extends Component {
 
     let countKeyInUserPosition = 0;
 
-    for (const key in userPosition) {
+    for (const key in userPosition) { // eslint-disable-line no-unused-vars
       countKeyInUserPosition++;
     }
 
@@ -107,11 +107,9 @@ class MapLeafLet extends Component {
   }
 }
 
-const propTypes = {
+MapLeafLet.propTypes = {
   locations: PropTypes.array,
   userPosition: PropTypes.object,
 };
-
-MapLeafLet.propTypes = propTypes;
 
 export default MapLeafLet;
