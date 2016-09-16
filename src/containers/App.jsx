@@ -8,6 +8,7 @@ import {
   addUserPosition,
   recordError,
   closeModalWindow,
+  saveLastState,
 } from '../actions/index';
 
 class App extends Component {
@@ -29,6 +30,8 @@ class App extends Component {
     window.addEventListener('beforeunload', this.storeToJson);
 
     this.props.actions.getLocationCategories();
+    this.props.actions.saveLastState(JSON.parse(window.localStorage.getItem('lastState')));
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.props.actions.addUserPosition(position.coords);
@@ -78,13 +81,14 @@ class App extends Component {
     const {
       locationCategories,
       locations,
+      lastState,
       geolocation: {
         userPosition,
         errorMessage,
         openModal,
       },
     } = this.props;
-
+    console.log(lastState, 'lastState');
     return (
       <AppComponent
         locationCategories={locationCategories}
@@ -97,6 +101,7 @@ class App extends Component {
         getItemsCategory={this.getItemsCategory}
         showCategory={this.handleShowCategory}
         closeModal={this.handleClose}
+        lastState={lastState}
         ref={(app) => { this.app = app; }}
       />
     );
@@ -106,6 +111,7 @@ class App extends Component {
 App.propTypes = {
   locationCategories: PropTypes.array,
   locations: PropTypes.array,
+  lastState: PropTypes.object,
   geolocation: PropTypes.shape({
     userPosition: PropTypes.object,
     errorMessage: PropTypes.string,
@@ -117,6 +123,7 @@ App.propTypes = {
     addUserPosition: PropTypes.func,
     recordError: PropTypes.func,
     closeModalWindow: PropTypes.func,
+    saveLastState: PropTypes.func,
   }),
 };
 
@@ -125,6 +132,7 @@ function mapStateToProps(state) {
     locationCategories: state.locationCategories.categories,
     locations: state.locations.items,
     geolocation: state.geolocation,
+    lastState: state.lastState,
   };
 }
 
@@ -136,6 +144,7 @@ function mapDispatchToProps(dispatch) {
       addUserPosition,
       recordError,
       closeModalWindow,
+      saveLastState,
     }, dispatch),
   };
 }

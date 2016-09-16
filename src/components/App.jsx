@@ -57,6 +57,7 @@ class App extends Component {
             null
         }
         <Map
+          lastState={this.props.lastState}
           locations={locations}
           userPosition={userPosition}
           ref={(map) => { this.map = map; }}
@@ -87,6 +88,7 @@ App.propTypes = {
   getItemsCategory: PropTypes.func,
   showCategory: PropTypes.func,
   closeModal: PropTypes.func,
+  lastState: PropTypes.object,
 };
 
 export default App;

@@ -26,7 +26,7 @@ class MapLeafLet extends Component {
   }
 
   render() {
-    const { userPosition, locations } = this.props;
+    const { userPosition, locations, lastState } = this.props;
 
     let countKeyInUserPosition = 0;
 
@@ -68,8 +68,8 @@ class MapLeafLet extends Component {
             : null
         }
         {
-          locations.length > 0 ?
-            locations.map(location =>
+          lastState.data && lastState.data.locations.length > 0 ?
+            lastState.data.locations.map(location =>
               <Marker
                 position={[location.coordinates.lat, location.coordinates.lon]}
                 key={location.id}
