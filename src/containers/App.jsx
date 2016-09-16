@@ -22,9 +22,12 @@ class App extends Component {
     this.getItemsCategory = this.getItemsCategory.bind(this);
     this.handleShowCategory = this.handleShowCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.storeToJson = this.storeToJson.bind(this);
   }
 
   componentDidMount() {
+    window.addEventListener('beforeunload', this.storeToJson);
+
     this.props.actions.getLocationCategories();
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -45,6 +48,7 @@ class App extends Component {
     this.setState({
       categoryName,
       categories: !this.state.categories,
+
     });
 
     map.mapLeaflet.leafletElement.setZoom(12);
@@ -58,6 +62,16 @@ class App extends Component {
 
   handleClose() {
     this.props.actions.closeModalWindow();
+  }
+
+  storeToJson() {
+    const lastState = {
+      categoryName: this.state.categoryName,
+      categories: this.state.categories,
+      locations: this.props.locations,
+    };
+
+    window.localStorage.setItem('lastState', JSON.stringify(lastState));
   }
 
   render() {
