@@ -9,27 +9,21 @@ class MapLeafLet extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      toLat: null,
-      toLon: null,
-    };
-
     this.getDirection = this.getDirection.bind(this);
   }
 
   getDirection(to) {
     const mapLeaflet = this.mapLeaflet;
 
-    this.setState({
-      toLat: to[0],
-      toLon: to[1],
-    });
+    this.props.setItemCoordinates(to);
+
+    window.localStorage.removeItem('lastState');
 
     mapLeaflet.leafletElement.closePopup();
   }
 
   render() {
-    const { userPosition, locations } = this.props;
+    const { userPosition, locations, itemCoordinates } = this.props;
     const lastState = JSON.parse(window.localStorage.getItem('lastState'));
 
     let countKeyInUserPosition = 0;
@@ -85,12 +79,20 @@ class MapLeafLet extends Component {
             />
         }
         {
-          (this.state.toLat !== null && this.state.toLat !== null) ?
+          countKeyInUserPosition > 0 &&
+          lastState &&
+          lastState.itemCoordinates[0] !== null &&
+          lastState.itemCoordinates[1] !== null ?
             <Routing
               from={[userPosition.latitude, userPosition.longitude]}
-              to={[this.state.toLat, this.state.toLon]}
+              to={[lastState.itemCoordinates[0], lastState.itemCoordinates[1]]}
             /> :
-            null
+            countKeyInUserPosition > 0 && itemCoordinates[0] !== 0 && itemCoordinates[1] !== 0 ?
+              <Routing
+                from={[userPosition.latitude, userPosition.longitude]}
+                to={[itemCoordinates[0], itemCoordinates[1]]}
+              /> :
+              null
         }
       </Map>
     );
@@ -100,6 +102,8 @@ class MapLeafLet extends Component {
 MapLeafLet.propTypes = {
   locations: PropTypes.array,
   userPosition: PropTypes.object,
+  setItemCoordinates: PropTypes.func,
+  itemCoordinates: PropTypes.array,
 };
 
 export default MapLeafLet;

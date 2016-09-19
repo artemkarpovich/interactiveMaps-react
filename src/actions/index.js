@@ -4,6 +4,7 @@ export const ADD_USER_POSITION = 'ADD_USER_POSITION';
 export const RECORD_ERROR = 'RECORD_ERROR';
 export const CLOSE_MODAL_WINDOW = 'CLOSE_MODAL_WINDOW';
 export const SAVE_CATEGORY_NAME = 'SAVE_CATEGORY_NAME';
+export const SET_ITEM_COORDINATES = 'SET_ITEM_COORDINATES';
 
 
 export function getLocationCategories() {
@@ -56,6 +57,15 @@ export function saveCategoryName(name) {
     type: SAVE_CATEGORY_NAME,
     payload: {
       name,
+    },
+  };
+}
+
+export function setItemCoordinates(to) {
+  return {
+    type: SET_ITEM_COORDINATES,
+    payload: {
+      to,
     },
   };
 }

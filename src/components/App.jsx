@@ -21,6 +21,8 @@ class App extends Component {
       getItemsCategory,
       showCategory,
       closeModal,
+      setItemCoordinates,
+      itemCoordinates,
     } = this.props;
 
     const actions = [
@@ -62,6 +64,8 @@ class App extends Component {
           lastState={this.props.lastState}
           locations={locations}
           userPosition={userPosition}
+          setItemCoordinates={setItemCoordinates}
+          itemCoordinates={itemCoordinates}
           ref={(map) => { this.map = map; }}
         />
 
@@ -91,6 +95,8 @@ App.propTypes = {
   showCategory: PropTypes.func,
   closeModal: PropTypes.func,
   lastState: PropTypes.object,
+  setItemCoordinates: PropTypes.func,
+  itemCoordinates: PropTypes.array,
 };
 
 export default App;
