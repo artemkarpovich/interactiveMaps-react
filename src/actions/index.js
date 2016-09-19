@@ -3,7 +3,8 @@ export const GET_LOCATIONS_BY_CATEGORY = 'GET_LOCATIONS_BY_CATEGORY';
 export const ADD_USER_POSITION = 'ADD_USER_POSITION';
 export const RECORD_ERROR = 'RECORD_ERROR';
 export const CLOSE_MODAL_WINDOW = 'CLOSE_MODAL_WINDOW';
-export const SAVE_LAST_STATE = 'SAVE_LAST_STATE';
+export const SAVE_CATEGORY_NAME = 'SAVE_CATEGORY_NAME';
+
 
 export function getLocationCategories() {
   return {
@@ -50,11 +51,11 @@ export function closeModalWindow() {
   };
 }
 
-export function saveLastState(data) {
+export function saveCategoryName(name) {
   return {
-    type: SAVE_LAST_STATE,
+    type: SAVE_CATEGORY_NAME,
     payload: {
-      data,
+      name,
     },
   };
 }

@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { Map, Popup, Marker, TileLayer, CircleMarker, ZoomControl } from 'react-leaflet';
 import 'leaflet-routing-machine';
 import Routing from './Routing';
+import Markers from './Markers';
 import '../../node_modules/leaflet/dist/leaflet.css';
 
 class MapLeafLet extends Component {
@@ -12,6 +13,8 @@ class MapLeafLet extends Component {
       toLat: null,
       toLon: null,
     };
+
+    this.getDirection = this.getDirection.bind(this);
   }
 
   getDirection(to) {
@@ -26,7 +29,8 @@ class MapLeafLet extends Component {
   }
 
   render() {
-    const { userPosition, locations, lastState } = this.props;
+    const { userPosition, locations } = this.props;
+    const lastState = JSON.parse(window.localStorage.getItem('lastState'));
 
     let countKeyInUserPosition = 0;
 
@@ -68,31 +72,17 @@ class MapLeafLet extends Component {
             : null
         }
         {
-          lastState.data && lastState.data.locations.length > 0 ?
-            lastState.data.locations.map(location =>
-              <Marker
-                position={[location.coordinates.lat, location.coordinates.lon]}
-                key={location.id}
-              >
-                <Popup>
-                  <span>
-                    {location.name}<br />
-                    {location.description}<br />
-                    {location.address}<br />
-                    {
-                      countKeyInUserPosition > 0 ?
-                        <button
-                          onClick={() => this.getDirection(
-                        [location.coordinates.lat, location.coordinates.lon]
-                      )}
-                        >
-                          Get direction
-                        </button> : null
-                    }
-                  </span>
-                </Popup>
-              </Marker>
-            ) : null
+          lastState && lastState.locations.length > 0 ?
+            <Markers
+              locations={lastState.locations}
+              countKeyInUserPosition={countKeyInUserPosition}
+              getDirection={this.getDirection}
+            /> :
+            <Markers
+              locations={locations}
+              countKeyInUserPosition={countKeyInUserPosition}
+              getDirection={this.getDirection}
+            />
         }
         {
           (this.state.toLat !== null && this.state.toLat !== null) ?

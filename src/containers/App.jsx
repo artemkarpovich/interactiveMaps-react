@@ -8,7 +8,7 @@ import {
   addUserPosition,
   recordError,
   closeModalWindow,
-  saveLastState,
+  saveCategoryName,
 } from '../actions/index';
 
 class App extends Component {
@@ -16,7 +16,6 @@ class App extends Component {
     super(props);
 
     this.state = {
-      categoryName: 'Выберите категорию в меню',
       categories: false,
     };
 
@@ -30,7 +29,6 @@ class App extends Component {
     window.addEventListener('beforeunload', this.storeToJson);
 
     this.props.actions.getLocationCategories();
-    this.props.actions.saveLastState(JSON.parse(window.localStorage.getItem('lastState')));
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -47,12 +45,13 @@ class App extends Component {
     const map = this.app.map;
 
     this.props.actions.getLocationsByCategory(categoryName);
+    this.props.actions.saveCategoryName(categoryName);
 
     this.setState({
-      categoryName,
       categories: !this.state.categories,
-
     });
+
+    window.localStorage.removeItem('lastState');
 
     map.mapLeaflet.leafletElement.setZoom(12);
   }
@@ -70,30 +69,30 @@ class App extends Component {
   storeToJson() {
     const lastState = {
       categoryName: this.state.categoryName,
-      categories: this.state.categories,
       locations: this.props.locations,
     };
 
     window.localStorage.setItem('lastState', JSON.stringify(lastState));
   }
 
+
   render() {
     const {
       locationCategories,
       locations,
-      lastState,
+      categoryName,
       geolocation: {
         userPosition,
         errorMessage,
         openModal,
       },
     } = this.props;
-    console.log(lastState, 'lastState');
+
     return (
       <AppComponent
         locationCategories={locationCategories}
         locations={locations}
-        categoryName={this.state.categoryName}
+        categoryName={categoryName}
         userPosition={userPosition}
         categories={this.state.categories}
         openModal={openModal}
@@ -101,7 +100,6 @@ class App extends Component {
         getItemsCategory={this.getItemsCategory}
         showCategory={this.handleShowCategory}
         closeModal={this.handleClose}
-        lastState={lastState}
         ref={(app) => { this.app = app; }}
       />
     );
@@ -111,7 +109,7 @@ class App extends Component {
 App.propTypes = {
   locationCategories: PropTypes.array,
   locations: PropTypes.array,
-  lastState: PropTypes.object,
+  categoryName: PropTypes.string,
   geolocation: PropTypes.shape({
     userPosition: PropTypes.object,
     errorMessage: PropTypes.string,
@@ -123,7 +121,7 @@ App.propTypes = {
     addUserPosition: PropTypes.func,
     recordError: PropTypes.func,
     closeModalWindow: PropTypes.func,
-    saveLastState: PropTypes.func,
+    saveCategoryName: PropTypes.func,
   }),
 };
 
@@ -132,7 +130,7 @@ function mapStateToProps(state) {
     locationCategories: state.locationCategories.categories,
     locations: state.locations.items,
     geolocation: state.geolocation,
-    lastState: state.lastState,
+    categoryName: state.categoryName,
   };
 }
 
@@ -144,7 +142,7 @@ function mapDispatchToProps(dispatch) {
       addUserPosition,
       recordError,
       closeModalWindow,
-      saveLastState,
+      saveCategoryName,
     }, dispatch),
   };
 }

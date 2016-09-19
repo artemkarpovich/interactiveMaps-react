@@ -31,6 +31,8 @@ class App extends Component {
       />,
     ];
 
+    const lastState = JSON.parse(window.localStorage.getItem('lastState'));
+
     return (
       <div>
         <AppBar
@@ -45,7 +47,7 @@ class App extends Component {
           }
           style={iMap.appBar}
         >
-          {categoryName}
+          {lastState ? lastState.categoryName : categoryName}
         </AppBar>
         {
           categories === true ?
