@@ -36,9 +36,9 @@ class MapLeafLet extends Component {
       <Map
         center={
           countKeyInUserPosition > 0 ?
-            [userPosition.latitude, userPosition.longitude] :
-            [53.674237, 23.825132]
-          }
+          [userPosition.latitude, userPosition.longitude] :
+          [53.674237, 23.825132]
+        }
         zoom={13}
         ref={(c) => { this.mapLeaflet = c; }}
         zoomControl={false}
@@ -63,7 +63,7 @@ class MapLeafLet extends Component {
         {
           countKeyInUserPosition > 0 ?
             <CircleMarker center={[userPosition.latitude, userPosition.longitude]} radius={25} />
-            : null
+          : null
         }
         {
           lastState && lastState.locations.length > 0 ?
@@ -72,11 +72,11 @@ class MapLeafLet extends Component {
               countKeyInUserPosition={countKeyInUserPosition}
               getDirection={this.getDirection}
             /> :
-            <Markers
-              locations={locations}
-              countKeyInUserPosition={countKeyInUserPosition}
-              getDirection={this.getDirection}
-            />
+          <Markers
+            locations={locations}
+            countKeyInUserPosition={countKeyInUserPosition}
+            getDirection={this.getDirection}
+          />
         }
         {
           countKeyInUserPosition > 0 &&
@@ -87,12 +87,12 @@ class MapLeafLet extends Component {
               from={[userPosition.latitude, userPosition.longitude]}
               to={[lastState.itemCoordinates[0], lastState.itemCoordinates[1]]}
             /> :
-            countKeyInUserPosition > 0 && itemCoordinates[0] !== 0 && itemCoordinates[1] !== 0 ?
-              <Routing
-                from={[userPosition.latitude, userPosition.longitude]}
-                to={[itemCoordinates[0], itemCoordinates[1]]}
-              /> :
-              null
+          countKeyInUserPosition > 0 && itemCoordinates[0] !== 0 && itemCoordinates[1] !== 0 ?
+            <Routing
+              from={[userPosition.latitude, userPosition.longitude]}
+              to={[itemCoordinates[0], itemCoordinates[1]]}
+            /> :
+          null
         }
       </Map>
     );

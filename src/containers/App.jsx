@@ -8,7 +8,6 @@ import {
   addUserPosition,
   recordError,
   closeModalWindow,
-  saveCategoryName,
   setItemCoordinates,
 } from '../actions/index';
 
@@ -18,6 +17,7 @@ class App extends Component {
 
     this.state = {
       categories: false,
+      categoryName: 'Выберите категорию в меню',
     };
 
     this.getItemsCategory = this.getItemsCategory.bind(this);
@@ -47,10 +47,10 @@ class App extends Component {
     const map = this.app.map;
 
     this.props.actions.getLocationsByCategory(categoryName);
-    this.props.actions.saveCategoryName(categoryName);
 
     this.setState({
       categories: !this.state.categories,
+      categoryName,
     });
 
     window.localStorage.removeItem('lastState');
@@ -70,7 +70,7 @@ class App extends Component {
 
   storeToJson() {
     const lastState = {
-      categoryName: this.props.categoryName,
+      categoryName: this.state.categoryName,
       locations: this.props.locations,
       itemCoordinates: this.props.itemCoordinates,
     };
@@ -82,12 +82,10 @@ class App extends Component {
     this.props.actions.setItemCoordinates(to);
   }
 
-
   render() {
     const {
       locationCategories,
       locations,
-      categoryName,
       itemCoordinates,
       geolocation: {
         userPosition,
@@ -100,7 +98,7 @@ class App extends Component {
       <AppComponent
         locationCategories={locationCategories}
         locations={locations}
-        categoryName={categoryName}
+        categoryName={this.state.categoryName}
         userPosition={userPosition}
         categories={this.state.categories}
         openModal={openModal}
@@ -119,7 +117,6 @@ class App extends Component {
 App.propTypes = {
   locationCategories: PropTypes.array,
   locations: PropTypes.array,
-  categoryName: PropTypes.string,
   itemCoordinates: PropTypes.array,
   geolocation: PropTypes.shape({
     userPosition: PropTypes.object,
@@ -142,7 +139,6 @@ function mapStateToProps(state) {
     locationCategories: state.locationCategories.categories,
     locations: state.locations.items,
     geolocation: state.geolocation,
-    categoryName: state.categoryName,
     itemCoordinates: state.itemCoordinates,
   };
 }
@@ -155,7 +151,6 @@ function mapDispatchToProps(dispatch) {
       addUserPosition,
       recordError,
       closeModalWindow,
-      saveCategoryName,
       setItemCoordinates,
     }, dispatch),
   };

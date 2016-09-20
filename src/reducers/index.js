@@ -3,7 +3,6 @@ import { routerReducer } from 'react-router-redux';
 import locationCategories from './locationCategories';
 import locations from './locations';
 import geolocation from './geolocation';
-import categoryName from './categoryName';
 import itemCoordinates from './itemCoordinates';
 
 export default combineReducers({
@@ -11,6 +10,5 @@ export default combineReducers({
   locationCategories,
   locations,
   geolocation,
-  categoryName,
   itemCoordinates,
 });
